@@ -1,0 +1,13 @@
+﻿<Application x:Class="ModulWpfApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ModulWpfApp"
+             xmlns:settings="clr-namespace:ModulWpfApp.Settings"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <settings:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+            <settings:CornerTypeToRadiusConverter x:Key="CornerTypeToRadiusConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

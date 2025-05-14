@@ -1,0 +1,33 @@
+<UserControl x:Class="ModulWpfApp.Modul.ModulMyModules"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:modul="clr-namespace:ModulWpfApp.Modul"
+             mc:Ignorable="d"
+             Height="Auto" Width="Auto">
+    <Grid Background="White">
+        <GroupBox Header="Мои модули" Margin="2" Background="White">
+            <Grid>
+                <ScrollViewer x:Name="ModulesScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="0">
+                    <ItemsControl x:Name="ModulesItemsControl"
+                                  AllowDrop="True"
+                                  PreviewMouseLeftButtonDown="ModulesItemsControl_PreviewMouseLeftButtonDown"
+                                  MouseMove="ModulesItemsControl_MouseMove"
+                                  Drop="ModulesItemsControl_Drop">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <modul:ModuleControl ModuleTitle="{Binding}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

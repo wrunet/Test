@@ -1,0 +1,47 @@
+<UserControl x:Class="ModulWpfApp.Settings.SettingsSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:ModulWpfApp.Settings"
+             mc:Ignorable="d"
+             Height="Auto" Width="Auto">
+    <UserControl.Resources>
+        <local:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+        <local:CornerTypeToRadiusConverter x:Key="CornerTypeToRadiusConverter" />
+        <DataTemplate x:Key="TriggerTemplate" DataType="{x:Type local:TriggerViewModel}">
+            <Border BorderBrush="{Binding BorderColor, Converter={StaticResource ColorToBrushConverter}}"
+                    BorderThickness="{Binding BorderThickness}"
+                    CornerRadius="{Binding CornerType, Converter={StaticResource CornerTypeToRadiusConverter}}"
+                    Margin="4"
+                    Padding="8"
+                    Background="White"
+                    MinWidth="{Binding Width}"
+                    MinHeight="{Binding Height}"
+                    HorizontalAlignment="Left">
+                <Grid>
+                    <TextBlock Text="{Binding Title}" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"
+                               FontFamily="{Binding Font}"
+                               Foreground="{Binding TextColor, Converter={StaticResource ColorToBrushConverter}}"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid Background="White">
+        <GroupBox Header="Настройки" Margin="2" Background="White">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="TriggersItemsControl"
+                              ItemsSource="{Binding TriggerList, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <StaticResource ResourceKey="TriggerTemplate" />
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </GroupBox>
+    </Grid>
+</UserControl>

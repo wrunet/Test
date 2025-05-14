@@ -1,0 +1,15 @@
+# Ignore build results
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+# Ignore VS Code settings
+.vscode/
+# Ignore user-specific files
+*.userprefs
+# Ignore OS files
+Thumbs.db
+.DS_Store

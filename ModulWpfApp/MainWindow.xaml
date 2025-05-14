@@ -1,0 +1,42 @@
+﻿<Window x:Class="ModulWpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ModulWpfApp"
+        xmlns:topMenu="clr-namespace:ModulWpfApp.TopMenu"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="750" Width="1200" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <topMenu:TopMenu DockPanel.Dock="Top"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="85*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="2" Background="White"
+                  xmlns:modul="clr-namespace:ModulWpfApp.Modul">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <modul:ModulModulesStyledNew Grid.Row="0" Margin="0,0,0,2"/>
+
+                <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="LightGray" ResizeBehavior="PreviousAndNext" ShowsPreview="True"/>
+
+                <modul:ModulMyModules Grid.Row="2" Margin="0"/>
+            </Grid>
+
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="LightGray" ResizeBehavior="PreviousAndNext" ShowsPreview="True"/>
+
+            <Border Background="White" Margin="2" Grid.Column="2"
+                    xmlns:settings="clr-namespace:ModulWpfApp.Settings">
+                <settings:SettingsSection/>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>
