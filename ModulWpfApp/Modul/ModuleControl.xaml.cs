@@ -17,6 +17,7 @@ namespace ModulWpfApp.Modul
         public ModuleControl()
         {
             InitializeComponent();
+            this.DataContext = new ModuleControlViewModel();
         }
     }
 }

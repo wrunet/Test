@@ -60,9 +60,12 @@ namespace ModulWpfApp.Settings
             set { _cornerType = value; OnPropertyChanged(nameof(CornerType)); }
         }
 
-        public TriggerViewModel(string title)
+        public string Id { get; set; } = string.Empty;
+
+        public TriggerViewModel(string title, string? id = null)
         {
             Title = title;
+            Id = id ?? string.Empty;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

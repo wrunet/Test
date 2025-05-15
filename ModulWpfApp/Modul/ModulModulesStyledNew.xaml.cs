@@ -16,6 +16,7 @@ namespace ModulWpfApp.Modul
         public ModulModulesStyledNew()
         {
             InitializeComponent();
+            this.DataContext = new ModulModulesStyledNewViewModel();
         }
 
         private void MakeModuleDraggable(Border border, Canvas canvas)
@@ -52,16 +53,6 @@ namespace ModulWpfApp.Modul
                     _dragStartPoint = null;
                 }
             };
-        }
-
-        private void CreateModuleButton_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            if (mainWindow == null) return;
-            var settingsSection = FindChild<SettingsSection>(mainWindow);
-            if (settingsSection == null) return;
-            // Для новой архитектуры с триггерами:
-            settingsSection.AddTrigger($"Триггер {settingsSection.TriggerList.Count + 1}");
         }
 
         private static T FindChild<T>(DependencyObject parent) where T : DependencyObject

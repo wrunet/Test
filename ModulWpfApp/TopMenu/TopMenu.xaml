@@ -13,6 +13,10 @@
             <MenuItem Header="Настройки">
                 <MenuItem Header="Triggers" Click="MenuItem_Triggers_Click"/>
             </MenuItem>
+            <MenuItem Header="Логи">
+                <MenuItem Header="Логирование" Click="MenuItem_Logging_Click"/>
+                <MenuItem Header="База Данных" Click="MenuItem_Database_Click"/>
+            </MenuItem>
         </Menu>
     </Grid>
 </UserControl>

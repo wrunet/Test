@@ -1,42 +1,37 @@
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using ModulWpfApp.Settings;
-using System.Linq;
 
 namespace ModulWpfApp.Modul
 {
-    public partial class ModulMyModules : UserControl
+    public partial class ModulMyTriggers : UserControl
     {
-        public ObservableCollection<TriggerViewModel> Modules { get; set; } = new ObservableCollection<TriggerViewModel>();
-
-        public ModulMyModules()
+        public ModulMyTriggers()
         {
             InitializeComponent();
-            LoadModulesFromDb();
-            // Привязка ItemsSource делается в XAML через Binding, если нужно — раскомментируйте следующую строку:
-            // ModulesItemsControl.ItemsSource = Modules;
-            // Не подписываемся на события здесь, это уже делается в XAML
-            // Не устанавливаем AllowDrop здесь, это уже делается в XAML
+            Logs.Logger.Log("ModulMyTriggers control created.");
+            this.DataContext = new ModulMyTriggersViewModel();
         }
 
-        private void LoadModulesFromDb()
+        // Для обратной совместимости и вызова из MainWindow
+        public void LoadMyTriggersFromDb()
         {
-            Modules.Clear();
-            var repo = new TriggerSettingsRepository();
-            foreach (var trigger in repo.GetAllTriggers())
-                Modules.Add(trigger);
+            if (this.DataContext is ModulMyTriggersViewModel viewModel)
+            {
+                viewModel.LoadMyTriggersFromDb();
+            }
         }
 
         // Drag&Drop обработчики
         private Point _dragStartPoint;
-        private void ModulesItemsControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void MyTriggersItemsControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _dragStartPoint = e.GetPosition(null);
         }
 
-        private void ModulesItemsControl_MouseMove(object sender, MouseEventArgs e)
+        private void MyTriggersItemsControl_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
@@ -47,13 +42,13 @@ namespace ModulWpfApp.Modul
                     var fe = e.OriginalSource as FrameworkElement;
                     if (fe?.DataContext is TriggerViewModel draggedItem)
                     {
-                        DragDrop.DoDragDrop(ModulesItemsControl, draggedItem, DragDropEffects.Move);
+                        DragDrop.DoDragDrop((ItemsControl)sender, draggedItem, DragDropEffects.Move);
                     }
                 }
             }
         }
 
-        private void ModulesItemsControl_Drop(object sender, DragEventArgs e)
+        private void MyTriggersItemsControl_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(typeof(TriggerViewModel)))
             {
@@ -61,15 +56,35 @@ namespace ModulWpfApp.Modul
                 var target = ((FrameworkElement)e.OriginalSource).DataContext as TriggerViewModel;
                 if (droppedData != null && target != null && droppedData != target)
                 {
-                    int removedIdx = Modules.IndexOf(droppedData);
-                    int targetIdx = Modules.IndexOf(target);
-                    if (removedIdx >= 0 && targetIdx >= 0)
-                    {
-                        Modules.RemoveAt(removedIdx);
-                        Modules.Insert(targetIdx, droppedData);
-                    }
+                    var viewModel = this.DataContext as ModulMyTriggersViewModel;
+                    viewModel?.MoveTrigger(droppedData, target);
                 }
             }
+        }
+
+        private void MyTriggerDeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem menuItem && menuItem.DataContext is TriggerViewModel trigger)
+            {
+                var viewModel = this.DataContext as ModulMyTriggersViewModel;
+                viewModel?.DeleteTrigger(trigger);
+            }
+        }
+
+        private static T? FindChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            if (parent == null) return null;
+            int count = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < count; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T tChild)
+                    return tChild;
+                var result = FindChild<T>(child);
+                if (result != null)
+                    return result;
+            }
+            return null;
         }
     }
 }

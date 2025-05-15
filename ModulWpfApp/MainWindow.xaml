@@ -7,8 +7,9 @@
         xmlns:topMenu="clr-namespace:ModulWpfApp.TopMenu"
         mc:Ignorable="d"
         Title="MainWindow" Height="750" Width="1200" WindowStartupLocation="CenterScreen">
+    <!-- DataContext задаётся в конструкторе MainWindow -->
     <DockPanel>
-        <topMenu:TopMenu DockPanel.Dock="Top"/>
+        <topMenu:TopMenu x:Name="TopMenuControl" DockPanel.Dock="Top"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="15*"/>
@@ -28,14 +29,14 @@
 
                 <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="LightGray" ResizeBehavior="PreviousAndNext" ShowsPreview="True"/>
 
-                <modul:ModulMyModules Grid.Row="2" Margin="0"/>
+                <modul:ModulMyTriggers x:Name="MyTriggersControl" Grid.Row="2" Margin="0"/>
             </Grid>
 
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="LightGray" ResizeBehavior="PreviousAndNext" ShowsPreview="True"/>
 
             <Border Background="White" Margin="2" Grid.Column="2"
                     xmlns:settings="clr-namespace:ModulWpfApp.Settings">
-                <settings:SettingsSection/>
+                <settings:SettingsSection x:Name="SettingsSection"/>
             </Border>
         </Grid>
     </DockPanel>

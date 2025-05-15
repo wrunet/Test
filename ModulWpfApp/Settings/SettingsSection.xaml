@@ -19,19 +19,28 @@
                     MinWidth="{Binding Width}"
                     MinHeight="{Binding Height}"
                     HorizontalAlignment="Left">
+                <Border.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Удалить" Click="TriggerDeleteMenuItem_Click" />
+                    </ContextMenu>
+                </Border.ContextMenu>
                 <Grid>
-                    <TextBlock Text="{Binding Title}" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"
-                               FontFamily="{Binding Font}"
-                               Foreground="{Binding TextColor, Converter={StaticResource ColorToBrushConverter}}"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="ID: " FontWeight="Bold" Margin="0,0,6,0"/>
+                        <TextBlock Text="{Binding Id}" FontWeight="Bold" Margin="0,0,12,0"/>
+                        <TextBlock Text="{Binding Title}" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   FontFamily="{Binding Font}"
+                                   Foreground="{Binding TextColor, Converter={StaticResource ColorToBrushConverter}}"/>
+                    </StackPanel>
                 </Grid>
             </Border>
         </DataTemplate>
     </UserControl.Resources>
     <Grid Background="White">
-        <GroupBox Header="Настройки" Margin="2" Background="White">
+        <GroupBox Header="Генерация звука" Margin="2" Background="White">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <ItemsControl x:Name="TriggersItemsControl"
-                              ItemsSource="{Binding TriggerList, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                              ItemsSource="{Binding TriggerList}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel/>

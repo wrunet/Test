@@ -1,0 +1,8 @@
+<Window x:Class="ModulWpfApp.Logs.LoggingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Логирование" Height="400" Width="600" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBox Name="LogTextBox" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextWrapping="Wrap" FontFamily="Consolas" FontSize="12"/>
+    </Grid>
+</Window>

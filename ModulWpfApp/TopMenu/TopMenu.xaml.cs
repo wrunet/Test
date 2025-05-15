@@ -16,10 +16,28 @@ namespace ModulWpfApp.TopMenu
             Application.Current.MainWindow.Close();
         }
 
+        public event EventHandler? TriggersChanged;
+
         private void MenuItem_Triggers_Click(object sender, RoutedEventArgs e)
         {
             var win = new ModulWpfApp.Settings.TriggerSettingsWindow();
-            win.ShowDialog();
+            bool? result = win.ShowDialog();
+            if (result == true)
+            {
+                TriggersChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void MenuItem_Logging_Click(object sender, RoutedEventArgs e)
+        {
+            var logWindow = new ModulWpfApp.Logs.LoggingWindow();
+            logWindow.Show();
+        }
+
+        private void MenuItem_Database_Click(object sender, RoutedEventArgs e)
+        {
+            var dbWindow = new ModulWpfApp.Logs.DatabaseWindow();
+            dbWindow.Show();
         }
     }
 }

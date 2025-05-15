@@ -73,7 +73,7 @@ namespace ModulWpfApp.Settings
             string cornerType = (CornerTypeBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Закругленные";
 
             var repo = new TriggerSettingsRepository();
-            repo.SaveSettings(title, width, height, font, textColor, borderColor, borderThickness, cornerType);
+            repo.SaveSettings(title, width, height, font, textColor, borderColor, borderThickness, cornerType, "Settings");
 
             this.DialogResult = true;
             this.Close();
