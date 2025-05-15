@@ -63,6 +63,16 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Название:" Grid.Column="0"/>
+                                    <TextBox x:Name="TitleBox" Grid.Column="1" Width="200"/>
+                                </Grid>
+                            </Border>
+                            <Border BorderBrush="#B0BEC5" BorderThickness="1" CornerRadius="4" Margin="0,0,0,8" Padding="6" Background="#F7F9FA">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>

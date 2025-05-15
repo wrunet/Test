@@ -17,6 +17,7 @@ namespace ModulWpfApp.Settings
         public Color TriggerBorderColor { get; set; } = Colors.Gray;
         public double TriggerBorderThickness { get; set; } = 1;
         public string TriggerCornerType { get; set; } = "Закругленные";
+        public string TriggerTitle { get; set; } = string.Empty;
 
         public TriggerSettingsWindow()
         {
@@ -27,6 +28,7 @@ namespace ModulWpfApp.Settings
 
         private void TriggerSettingsWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            TitleBox.Text = TriggerTitle;
             WidthBox.Text = TriggerWidth.ToString();
             HeightBox.Text = TriggerHeight.ToString();
             FontBox.ItemsSource = Fonts.SystemFontFamilies;
@@ -55,6 +57,13 @@ namespace ModulWpfApp.Settings
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
+            string title = TitleBox.Text?.Trim() ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                System.Windows.MessageBox.Show("Введите название триггера", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             int width = int.TryParse(WidthBox.Text, out var w) ? w : 200;
             int height = int.TryParse(HeightBox.Text, out var h) ? h : 80;
             string font = ((System.Windows.Media.FontFamily)FontBox.SelectedItem)?.Source ?? "Segoe UI";
@@ -64,7 +73,7 @@ namespace ModulWpfApp.Settings
             string cornerType = (CornerTypeBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Закругленные";
 
             var repo = new TriggerSettingsRepository();
-            repo.SaveSettings(width, height, font, textColor, borderColor, borderThickness, cornerType);
+            repo.SaveSettings(title, width, height, font, textColor, borderColor, borderThickness, cornerType);
 
             this.DialogResult = true;
             this.Close();

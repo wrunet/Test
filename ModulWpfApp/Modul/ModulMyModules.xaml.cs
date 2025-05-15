@@ -2,22 +2,31 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ModulWpfApp.Settings;
+using System.Linq;
 
 namespace ModulWpfApp.Modul
 {
     public partial class ModulMyModules : UserControl
     {
-        public ObservableCollection<string> Modules { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<TriggerViewModel> Modules { get; set; } = new ObservableCollection<TriggerViewModel>();
 
         public ModulMyModules()
         {
             InitializeComponent();
-            // Модули не добавляются автоматически
-            ModulesItemsControl.ItemsSource = Modules;
-            ModulesItemsControl.PreviewMouseLeftButtonDown += ModulesItemsControl_PreviewMouseLeftButtonDown;
-            ModulesItemsControl.MouseMove += ModulesItemsControl_MouseMove;
-            ModulesItemsControl.Drop += ModulesItemsControl_Drop;
-            ModulesItemsControl.AllowDrop = true;
+            LoadModulesFromDb();
+            // Привязка ItemsSource делается в XAML через Binding, если нужно — раскомментируйте следующую строку:
+            // ModulesItemsControl.ItemsSource = Modules;
+            // Не подписываемся на события здесь, это уже делается в XAML
+            // Не устанавливаем AllowDrop здесь, это уже делается в XAML
+        }
+
+        private void LoadModulesFromDb()
+        {
+            Modules.Clear();
+            var repo = new TriggerSettingsRepository();
+            foreach (var trigger in repo.GetAllTriggers())
+                Modules.Add(trigger);
         }
 
         // Drag&Drop обработчики
@@ -36,7 +45,7 @@ namespace ModulWpfApp.Modul
                     Math.Abs(position.Y - _dragStartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
                     var fe = e.OriginalSource as FrameworkElement;
-                    if (fe?.DataContext is string draggedItem)
+                    if (fe?.DataContext is TriggerViewModel draggedItem)
                     {
                         DragDrop.DoDragDrop(ModulesItemsControl, draggedItem, DragDropEffects.Move);
                     }
@@ -46,11 +55,11 @@ namespace ModulWpfApp.Modul
 
         private void ModulesItemsControl_Drop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(string)))
+            if (e.Data.GetDataPresent(typeof(TriggerViewModel)))
             {
-                string droppedData = (string)e.Data.GetData(typeof(string));
-                var target = ((FrameworkElement)e.OriginalSource).DataContext as string;
-                if (!string.IsNullOrEmpty(droppedData) && target != null && droppedData != target)
+                var droppedData = (TriggerViewModel)e.Data.GetData(typeof(TriggerViewModel));
+                var target = ((FrameworkElement)e.OriginalSource).DataContext as TriggerViewModel;
+                if (droppedData != null && target != null && droppedData != target)
                 {
                     int removedIdx = Modules.IndexOf(droppedData);
                     int targetIdx = Modules.IndexOf(target);

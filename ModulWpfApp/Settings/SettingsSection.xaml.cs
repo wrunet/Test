@@ -12,6 +12,15 @@ namespace ModulWpfApp.Settings
         {
             InitializeComponent();
             this.DataContext = this;
+            LoadTriggersFromDb();
+        }
+
+        public void LoadTriggersFromDb()
+        {
+            TriggerList.Clear();
+            var repo = new TriggerSettingsRepository();
+            foreach (var trigger in repo.GetAllTriggers())
+                TriggerList.Add(trigger);
         }
 
         public void AddTrigger(string title)
